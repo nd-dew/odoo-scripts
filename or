@@ -8,7 +8,7 @@ import subprocess
 import psutil
 from pathlib import Path
 import time
-from versions import VERSIONS
+from versions import Version, VERSIONS
 
 ODOO='odoo'
 ENTERPRISE='enterprise'
