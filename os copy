@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+
+import multiprocessing as mp
+import argparse
+import subprocess
+
+versions_map={ 
+  "14":   "14.0",
+  "15":   "15.0",
+  "15.2": "saas-15.2",
+  "16":   "16.0",
+  "16.1": "saas-16.1",
+  "16.2": "saas-16.2",
+  "16.3": "saas-16.3",
+  "16.4": "saas-16.4",
+  "17":   "17.0",
+
+  "4":   "14.0",
+  "5":   "15.0",
+  "5.2": "saas-15.2",
+  "52": "saas-15.2",
+  "6":   "16.0",
+  "6.1": "saas-16.1",
+  "61": "saas-16.1",
+  "6.2": "saas-16.2",
+  "62": "saas-16.2",
+  "6.3": "saas-16.3",
+  "63": "saas-16.3",
+  "6.4": "saas-16.4",
+  "64": "saas-16.4",
+  "7":   "17.0",
+}
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Print two directory names.")
+    parser.add_argument("branch", nargs="?", default=None, help="Which branch do you want to switch to? ")  
+    parser.add_argument("--c",  default=None, help="dir with odoo community repo cloned ")
+    parser.add_argument("--e",  default=None, help="dir with odoo enterprise repo cloned")
+    return parser.parse_args()
+
+
+def function_one():
+    for _ in range(5):
+        print("Function One is running...")
+        # time.sleep(1)
+
+def function_two():
+    for _ in range(3):
+        print("Function Two is running...")
+        # time.sleep(2)
+
+# if __name__ == "__main__":
+#     # Create two separate processes for each function
+#     process_one = multiprocessing.Process(target=function_one)
+#     process_two = multiprocessing.Process(target=function_two)
+
+#     # Start the processes
+#     process_one.start()
+#     process_two.start()
+
+#     # Optional: Wait for the processes to finish (if you want to wait for their completion)
+#     # process_one.join()
+#     # process_two.join()
+
+#     # The main program continues executing independently of the processes
+#     print("Main program continues running...")
+def _switch_to(b, repo):
+    res= subprocess.run(['git', '-C', repo, 'switch', b],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True 
+        )
+
+def switch_to(branch, c, e):
+    p1 = mp.Process(target=_switch_to, args=(branch, c))
+    p2 = mp.Process(target=_switch_to, args=(branch, e))
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
+
+def selector():
+    pass
+
+def main():
+    args = parse_arguments()
+    print(args)
+
+    if args.branch in versions_map:
+        switch_to(args.branch, args.c, args.e)
+    else:
+        selector()
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,112 @@
+#!/bin/bash
+# --------------------     Change Versions Tool (cv)    ------------------------------
+# 1. The Change Versions Tool (cv) is a Bash script designed to simplify the process of changing versions in an Odoo development environment. It automates the process of switching the codebase to a specific branch in both the Odoo and Odoo Enterprise repositories, updates the virtual environment, and provides clear feedback on the results. This tool is especially useful for developers working with different versions of Odoo.
+
+set -e # Exit immediately if any command fails.
+
+
+# -----------------    Definitions  (ACCOMODATE TO YOUR NEEDS) --------
+# Paths to odoo and odoo-enterprise 
+odoo_community="$ODOO_DIR/community"
+odoo_enterprise_path="$ODOO_DIR/enterprise"
+dir_with_venvs="$HOME/.pyenv/versions"
+symlink_path="$HOME/.CurrentVenv"
+
+
+# -----------------    Input check  ------------------------------
+
+# Check if the number of command-line arguments ($#) is other than 1.
+if [ $# -lt 1 ]; then
+    # If there are not enough arguments, print an error message to stderr (>&2).
+    >&2 echo "Change Version tool (cv) needs 1 parameter (cv VENV_NAME )"
+    # Exit the script with an error code (1).
+    exit 1
+fi
+
+# Check if input matches existing venvs
+#  get existing_venvs
+existing_venvs=()
+for dir in "$dir_with_venvs"/*; do
+    if  [ -L "$dir" ]; then  # is directory & not a symLink
+        venv_basename=$(basename "$dir")
+        # printf "added \"%s\" from \"%s\"\n" "$venv_basename" "$dir"
+        existing_venvs+=("$venv_basename")
+    fi
+done
+
+#  compare existing_venvs with fiven venv_name
+venv_name_in_existing_venvs=false
+for venv in "${existing_venvs[@]}"; do
+    # printf "\"%s\" == \"%s\"\n" "$venv" "$1"
+    if [ "$venv" == "$1" ]; then
+        venv_name_in_existing_venvs=true
+        break
+    fi
+done
+
+#  throw error if given venv doesn't exist  OR announce sucess
+if [ "$venv_name_in_existing_venvs" == false ];
+    then
+        >&2 printf "\033[31mgiven venv called \"%s\"  not in existing_venvs, possible venvs are: \033[0m\n" "$1"
+        for venv in "${existing_venvs[@]}"; do
+            >&2 printf "\t\033[31m%s\033[0m\n" "$venv"
+        done
+        exit 1
+    else
+        printf "\033[32m%s\033[0m %s\n" "Found given venv!" "Switching branches..."
+fi
+
+
+# ---------------------   Swtiching repos to required branch   -------------------------------------
+
+# Defining Helper Function
+# This one takes two params, goes to specified dir and switches git to specified branch 
+# $1: dir with repo
+# $2: branch name to checkout into
+function checkout_pull_and_clean() {
+    cd "$1"
+    git checkout "$2"
+    git pull
+    git clean -fdXq # Removes untracked files and directories.
+}
+
+# Switch both repos in the background
+checkout_pull_and_clean "$odoo_community" "$1" &
+checkout_pull_and_clean "$odoo_enterprise_path" "$1" &
+
+
+# Wait for the background processes to finish
+wait
+
+
+# --------------     Setting symLink to venv (corresponding to branch)     --------------
+
+# Create a symbolic link (-s) forcefully (-f) with the target being the venv specified as the first argument ($1).
+
+
+ln -sfn "$dir_with_venvs/$1" "$symlink_path"
+
+
+# --------------       Finish with informing user about changes     --------------
+
+# Get results
+target=$(readlink -f "$symlink_path")
+cd "$odoo_community" 
+git_odoo_branch=$(git branch --show-current)
+cd "$odoo_enterprise_path" 
+git_enterprise_branch=$(git branch --show-current)
+
+# Check results
+color="\u001b[1m\u001b[41m" # failure (red bold ) color by default
+if [ "$git_odoo_branch" == "$1" ] && [ "$git_enterprise_branch" == "$1" ];
+    then
+        color="\u001b[1m\u001b[42;1m" # sucess color (green bold )
+fi
+
+# Print results
+
+printf "\n$color %s  \u001b[0m \n" "Changing Versions Script Finished!" 
+printf "Results:\n"
+printf "\t1. odoo             on branch: %s\n" "$git_odoo_branch"
+printf "\t2. odoo-enterprise  on branch: %s\n" "$git_enterprise_branch"
+printf "\t3. %s\n" "$(basename "$symlink_path") pointing to $target"
