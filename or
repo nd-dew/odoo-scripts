@@ -32,6 +32,7 @@ def match_version(s:str):
 def parse_arguments():
     parser = argparse.ArgumentParser(description='or i.e "Odoo run" [version]')
     parser.add_argument("version", nargs="?", default=None, help="Which version do you want to run? ")  
+    parser.add_argument('--force', action='store_true', help='run even if it is already running, (duplicate)')
     parser.add_argument('extra_args', nargs='*', help='kwargs to pass to odoo-bin, pass after double dash --, like -- -i crm')
     return parser.parse_args()
 
@@ -87,6 +88,7 @@ def is_already_running(version:Version):
             })
     for p in processes:
         if f"/{version.formal}/" in str(p['cmdline']):
+            print("detected", str(p['cmdline']))
             return True
     return False
 
@@ -101,8 +103,8 @@ def main():
         v= fuzzy_selector(args.version)
     v=v[0]
     # check if already running
-    if is_already_running(v):
-        print(f"odoo {v.short} is already running")
+    if not args.force and is_already_running(v):
+        print(f"odoo {v.short} is already running (add --force for duplicates)")
     else:
         pull(v)
         run_odoo(v, args.extra_args)
