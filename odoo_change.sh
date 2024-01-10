@@ -1,4 +1,4 @@
-#            _                       _                                  __      _ _       __  
+#!/usr/bin/env bash
 #   ___   __| | ___   ___        ___| |__   __ _ _ __   __ _  ___      / /   __| (_)_ __  \ \ 
 #  / _ \ / _` |/ _ \ / _ \      / __| '_ \ / _` | '_ \ / _` |/ _ \    | |   / _` | | '__|  | |
 # | (_) | (_| | (_) | (_) |    | (__| | | | (_| | | | | (_| |  __/    | |  | (_| | | |     | |
@@ -31,7 +31,8 @@ _base_odoo_change(){
 
     if [ -n "${all_versions[$1]}" ]; then
         target_path="${all_versions[$1]}"
-        # cd "$target_path" || return 1
+        cd "$target_path" || return 1
+        echo "$target_path"
     else
         echo "Error: Unknown Odoo version '$1'"
         return 1
@@ -47,11 +48,13 @@ oc(){
 occ(){
     echo -ne "\033[A\033[K"  # Move up one line and clear the line
     echo "$0 $@  -> Odoo Change into '$1' and open Code"
-    _base_odoo_change "$1" | code .
+    target_path=$(_base_odoo_change "$1") && code "$target_path"
+    _base_odoo_change "$1"
 }
 
 occr(){
     echo -ne "\033[A\033[K"  # Move up one line and clear the line
     echo "$0 $@  -> Odoo Change into '$1' and open Code and Run"
-    _base_odoo_change "$1" | code . | or "$1"
+    target_path=$(_base_odoo_change "$1") && code "$target_path" && or "$1"
+    _base_odoo_change "$1"
 }
