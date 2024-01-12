@@ -36,6 +36,19 @@ def parse_arguments():
     parser.add_argument('extra_args', nargs='*', help='kwargs to pass to odoo-bin, pass after double dash --, like -- -i crm')
     return parser.parse_args()
 
+def _switch_branch(repo_path, version_formal):
+    subprocess.run(['git', '-C', repo_path, 'switch', version_formal])
+
+def ensure_correct_git_branch(version:Version):
+    """It may happen that wt is on a different branch, this will restore required one"""
+    print("Switching...", end="")
+    p1 = mp.Process(target=_switch_branch, args=(WT_DIR/version.formal/'odoo', version.formal))
+    p2 = mp.Process(target=_switch_branch, args=(WT_DIR/version.formal/'enterprise', version.formal))
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
+    print(" done")
 
 def _pull_worktree(path):
     subprocess.run(['git', '-C', path, 'pull'], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -106,6 +119,7 @@ def main():
     if not args.force and is_already_running(v):
         print(f"odoo {v.short} is already running (add --force for duplicates)")
     else:
+        ensure_correct_git_branch(v)
         pull(v)
         run_odoo(v, args.extra_args)
 
