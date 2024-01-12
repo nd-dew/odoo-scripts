@@ -17,15 +17,16 @@ class Version():
     def __repr__(self) -> str:
         return f"<V_{self.formal}>"
 
+# Formal is the official branch name
 VERSIONS= [
-    Version(formal="14.0",      short="14",    ip="127.0.0.140"),     
-    Version(formal="15.0",      short="15",    ip="127.0.0.150"),        
-    Version(formal="saas-15.2", short="15.2",  ip="127.0.0.152"),       
-    Version(formal="16.0",      short="16",    ip="127.0.0.160"),       
-    Version(formal="saas-16.1", short="16.1",  ip="127.0.0.161"),       
-    Version(formal="saas-16.2", short="16.2",  ip="127.0.0.162"),       
-    Version(formal="saas-16.3", short="16.3",  ip="127.0.0.163"),       
-    Version(formal="saas-16.4", short="16.4",  ip="127.0.0.164"),       
-    Version(formal="17.0",      short="17",    ip="127.0.0.170"),       
-    Version(formal="master",    short="master",ip="127.0.0.254"),       
+    Version(formal="14.0",      short="14",    ip="127.0.0.140", ),     
+    Version(formal="15.0",      short="15",    ip="127.0.0.150", tags={"150"}),
+    Version(formal="saas-15.2", short="15.2",  ip="127.0.0.152", tags={"152"}),
+    Version(formal="16.0",      short="16",    ip="127.0.0.160", tags={"160"}),
+    Version(formal="saas-16.1", short="16.1",  ip="127.0.0.161", tags={"161"}),
+    Version(formal="saas-16.2", short="16.2",  ip="127.0.0.162", tags={"162"}),
+    Version(formal="saas-16.3", short="16.3",  ip="127.0.0.163", tags={"163"}),
+    Version(formal="saas-16.4", short="16.4",  ip="127.0.0.164", tags={"164"}),
+    Version(formal="17.0",      short="17",    ip="127.0.0.170", tags={"170"}),
+    Version(formal="master",    short="master",ip="127.0.0.254", ),        
 ]
