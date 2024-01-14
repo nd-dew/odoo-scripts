@@ -109,6 +109,9 @@ def fuzzy_selector(given_version_str:str)-> str:
     raise NotImplementedError("fuzzy_selector still to be implemented")
     # return versions_map["14"]
 
+def change_tmux_window_name(new_name):
+    subprocess.run(["tmux", "rename-window", new_name])
+
 def main():
     # select version
     args = parse_arguments()
@@ -121,6 +124,7 @@ def main():
     else:
         ensure_correct_git_branch(v)
         pull(v)
+        change_tmux_window_name(v.short)
         run_odoo(v, args.extra_args)
 
 
