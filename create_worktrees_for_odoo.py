@@ -39,13 +39,15 @@ doc=""" Create worktrees for community enterprise in separate folders. Example:
     ├── saas-16.3
     │   ├── enterprise
     │   └── odoo
+    ├── saas-17.1
+    │   ├── enterprise
+    │   └── odoo
     └── saas-16.4
         ├── enterprise
         └── odoo
     """
 
 MAIN_ODOO_BRANCHES=[
-  "14.0",
   "15.0",
   "saas-15.2",
   "16.0",
@@ -54,6 +56,7 @@ MAIN_ODOO_BRANCHES=[
   "saas-16.3",
   "saas-16.4",
   "17.0",
+  "saas-17.1",
   "master",
 ]
 
