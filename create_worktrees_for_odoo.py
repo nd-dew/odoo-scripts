@@ -71,6 +71,7 @@ def parse_arguments():
 def create_version_dir_if_doesnt_exist(dir_path:Path):
     dir_path.mkdir(parents=True, exist_ok=True)
 
+    c
 
 def main():
     args = parse_arguments()
@@ -81,6 +82,10 @@ def main():
     for branch_name in MAIN_ODOO_BRANCHES:
         msg+=f"\n\t{branch_name:<11}"
         create_version_dir_if_doesnt_exist(Path(args.wt)/branch_name)
+
+        cmd = ['git', '-C', args.c, 'fetch', 'origin', branch_name]
+        res= subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True )
+
         cmd= ['git', '-C', args.c, 'worktree', 'add', Path(args.wt)/branch_name/"odoo", branch_name]
         res= subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True )
         if res.stderr and "already exists" in res.stderr:
@@ -93,6 +98,10 @@ def main():
     msg+=f"\n\nenterprise ({args.e}):"
     for branch_name in MAIN_ODOO_BRANCHES:
         msg+=f"\n\t{branch_name:<11}"
+
+        cmd = ['git', '-C', args.e, 'fetch', 'origin', branch_name]
+        res= subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True )
+
         cmd= ['git', '-C', args.e, 'worktree', 'add', Path(args.wt)/branch_name/"enterprise", branch_name]
         res= subprocess.run(cmd,            stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
         if res.stderr and "already exists" in res.stderr:
