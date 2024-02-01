@@ -3,48 +3,35 @@ import argparse
 from pathlib import Path
 import subprocess
 
-doc=""" Create worktrees for community enterprise in separate folders. Example:
-            ./create_worktrees_for_odoo.py --wt /home/worktrees --c /odoo_community_repo --e /odoo_enterprise_repo
+doc=""" Create worktrees for community enterprise in separate folders. 
+    
+    Example:
+            ./create_worktrees_for_odoo.py --wt /home/wt --c /odoo_community_repo --e /odoo_enterprise_repo
 
-    This command will use source folders:
-    -  /home/odoo_community_repo            
-    -  /odoo_enterprise_repo
+        This command will use source folders:
+        -  /odoo_community_repo            
+        -  /odoo_enterprise_repo
 
-    And create the following folder structure filled with worktrees:
-    /home/worktrees:
-    ├── 14.0
-    │   ├── enterprise
-    │   └── odoo
-    ├── 15.0
-    │   ├── enterprise
-    │   └── odoo
-    ├── 16.0
-    │   ├── enterprise
-    │   └── odoo
-    ├── 17.0
-    │   ├── enterprise
-    │   └── odoo
-    ├── master
-    │   ├── enterprise
-    │   └── odoo
-    ├── saas-15.2
-    │   ├── enterprise
-    │   └── odoo
-    ├── saas-16.1
-    │   ├── enterprise
-    │   └── odoo
-    ├── saas-16.2
-    │   ├── enterprise
-    │   └── odoo
-    ├── saas-16.3
-    │   ├── enterprise
-    │   └── odoo
-    ├── saas-17.1
-    │   ├── enterprise
-    │   └── odoo
-    └── saas-16.4
-        ├── enterprise
-        └── odoo
+        And create the following folder structure filled with worktrees:
+        /home/wt:
+            ├── 15.0
+            │   ├── enterprise
+            │   └── odoo
+            ├── saas-15.2
+            │   ├── enterprise
+            │   └── odoo
+            ├── 16.0
+            │   ├── enterprise
+            │   └── odoo
+            ├── saas-16.1
+            │   ├── enterprise
+            .   └── odoo
+            .
+            .
+
+            └── master
+                ├── enterprise
+                └── odoo
     """
 
 MAIN_ODOO_BRANCHES=[
@@ -60,6 +47,10 @@ MAIN_ODOO_BRANCHES=[
   "master",
 ]
 
+doc+="\nList of odoo branches used by this script:\n"
+for branch in MAIN_ODOO_BRANCHES:
+    doc+=f"\t{branch}\n"
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description=f"{doc}", formatter_class=argparse.RawDescriptionHelpFormatter
 )
@@ -70,8 +61,6 @@ def parse_arguments():
 
 def create_version_dir_if_doesnt_exist(dir_path:Path):
     dir_path.mkdir(parents=True, exist_ok=True)
-
-    c
 
 def main():
     args = parse_arguments()
