@@ -11,10 +11,17 @@
 
 
 _base_odoo_change(){
-    # Paths
-    prefix="/home/odoo/Repos/Odoo/wt"
+    # This function, '_base_odoo_change', sets paths for various Odoo versions
+    # within the specified directory structure. The associative array 'all_versions'
+    # provides convenient aliases for different versions, allowing for easy
+    # switching between Odoo releases during development. The 'prefix' variable
+    # defines the base directory where Odoo versions are stored.
+    
 
-# Declare an associative array
+    # Associative array mapping Odoo version aliases to their corresponding worktree locations.
+    # orgaznided as: [yr_shortcut_1]=path_to_worktree [yr_shortcut_2]=path_to_worktree ...
+    # usage: "oc yr_shortcut_1"  -> changes dir to path_to_worktree
+    prefix="/home/odoo/Repos/Odoo/wt"
     declare -A all_versions=(
         ["14.0"]="${prefix}/14.0" ["14"]="${prefix}/14.0"
         ["15.0"]="${prefix}/15.0" ["15"]="${prefix}/15.0"
