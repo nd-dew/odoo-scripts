@@ -1,7 +1,7 @@
 import subprocess
 
 # Define Python version
-python_version = "3.8"
+python_version = "3.10"
 
 # Define a list of environment names
 env_names = [
@@ -13,6 +13,7 @@ env_names = [
     "saas-16.2",
     "saas-16.3",
     "saas-16.4",
+    "saas-17.1",
 ]
 
 
