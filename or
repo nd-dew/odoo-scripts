@@ -32,7 +32,7 @@ def match_version(s:str):
 def parse_arguments():
     parser = argparse.ArgumentParser(description='or i.e "Odoo run" [version]')
     parser.add_argument("version", nargs="?", default=None, help="Which version do you want to run? ")  
-    parser.add_argument('--force', action='store_true', help='run even if it is already running, (duplicate)')
+    parser.add_argument('--force', '-f', action='store_true', help='run even if it is already running, (duplicate)')
     parser.add_argument('--preserve', '-p', action='store_true', help='Do NOT switch branches, nor pull. Run odoo as it is.')
     parser.add_argument('extra_args', nargs='*', help='kwargs to pass to odoo-bin, pass after double dash --, like -- -i crm')
     return parser.parse_args()
