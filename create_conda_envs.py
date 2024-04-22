@@ -14,6 +14,7 @@ env_names = [
     "saas-16.3",
     "saas-16.4",
     "saas-17.1",
+    "saas-17.2",
 ]
 
 
@@ -26,4 +27,5 @@ for env_name in env_names:
     
     else: # Environment does not exist; create it
         print(f"Creating environment {env_name} with Python {python_version}...")
+        subprocess.run(f"conda create -n {env_name} python={python_version} -y", shell=True)
         subprocess.run(f"conda create -n {env_name} python={python_version} -y", shell=True)

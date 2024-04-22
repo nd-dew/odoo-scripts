@@ -45,6 +45,7 @@ MAIN_ODOO_BRANCHES=[
   "saas-16.4",
   "17.0",
   "saas-17.1",
+  "saas-17.2",
   "master",
 ]
 
