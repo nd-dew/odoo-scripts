@@ -30,9 +30,16 @@ def match_version(s:str):
     return matches
 
 def parse_arguments():
+    description=''' or i.e. Odoo Run
+        Usage examples:
+            or 15       <- switches git branches to 15.0, next runs odoo version 15
+            or -s 15    <- opens interactive shell with db 15 (db called "15" gotta exist)
+            
+            '''
     parser = argparse.ArgumentParser(description='or i.e "Odoo run" [version]')
     parser.add_argument("version", nargs="?", default=None, help="Which version do you want to run? ")  
     parser.add_argument('--force', '-f', action='store_true', help='run even if it is already running, (duplicate)')
+    parser.add_argument('--shell', '-s', action='store_true', help='run interactive shell')
     parser.add_argument('--preserve', '-p', action='store_true', help='Do NOT switch branches, nor pull. Run odoo as it is.')
     parser.add_argument('extra_args', nargs='*', help='kwargs to pass to odoo-bin, pass after double dash --, like -- -i crm')
     return parser.parse_args()
@@ -72,10 +79,11 @@ def _append_histfile(cmd):
         history_file.write(history_entry)
 
 
-def run_odoo(version:Version, extra_args:list):
+def run_odoo(version:Version, shell:bool=False, extra_args:list=[]):
     conda_python=f'/home/odoo/miniconda3/envs/{version.formal}/bin/python3'
     dir_odoo=WT_DIR/version.formal/'odoo'
     odoo_bin=str(dir_odoo/'odoo-bin')
+    shell = 'shell' if shell else ''
     addons=         f"--addons-path={dir_odoo}/addons/,{dir_odoo.parent/'enterprise'}"
     db_host =        "--db_host=127.0.0.1"
     db_port =        "--db_port=5433" # TODO infer that
@@ -83,7 +91,7 @@ def run_odoo(version:Version, extra_args:list):
     db_user =        "--db_user=odoo"
     db_password =    "--db_password=odoo"
     http_interface= f"--http-interface={version.ip}"
-    cmd=[conda_python, odoo_bin,addons, db_host, db_port, db_name, db_user, db_password, http_interface] + extra_args
+    cmd=[conda_python, odoo_bin, shell, addons, db_host, db_port, db_name, db_user, db_password, http_interface] + extra_args
     print("Running command:\n", ' \\\n'.join(cmd), '\n')
     _append_histfile(cmd)
     res= subprocess.run(cmd)
@@ -127,7 +135,7 @@ def main():
             ensure_correct_git_branch(v)
             pull(v)
         change_tmux_window_name(v.short)
-        run_odoo(v, args.extra_args)
+        run_odoo(v, args.shell, args.extra_args)
 
 
 if __name__ == "__main__":
