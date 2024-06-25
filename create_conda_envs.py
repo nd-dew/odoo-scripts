@@ -5,16 +5,13 @@ python_version = "3.10"
 
 # Define a list of environment names
 env_names = [
-    "14.0", 
-    "15.0", 
+    "15.0",
     "16.0",
-    "master",
-    "saas-16.1",
-    "saas-16.2",
-    "saas-16.3",
-    "saas-16.4",
+    "17.0",
     "saas-17.1",
     "saas-17.2",
+    "saas-17.3",
+    "master",
 ]
 
 

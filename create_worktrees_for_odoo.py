@@ -36,17 +36,13 @@ doc=""" Create worktrees for community enterprise in separate folders.
     """
 
 MAIN_ODOO_BRANCHES=[
-  "15.0",
-  "saas-15.2",
-  "16.0",
-  "saas-16.1",
-  "saas-16.2",
-  "saas-16.3",
-  "saas-16.4",
-  "17.0",
-  "saas-17.1",
-  "saas-17.2",
-  "master",
+    "15.0",
+    "16.0",
+    "17.0",
+    "saas-17.1",
+    "saas-17.2",
+    "saas-17.3",
+    "master",
 ]
 
 doc+="\nList of odoo branches used by this script:\n"

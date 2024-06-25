@@ -3,14 +3,13 @@ import subprocess
 from colorama import Fore, Style, Back
 
 branch_names = [
+    "15.0",
     "16.0",
-    "15.0", 
-    "14.0", 
+    "17.0",
+    "saas-17.1",
+    "saas-17.2",
+    "saas-17.3",
     "master",
-    "saas-16.1",
-    "saas-16.2",
-    "saas-16.3",
-    "saas-16.4",
 ]
 
 
