@@ -34,7 +34,6 @@ def parse_arguments():
         Usage examples:
             or 15       <- switches git branches to 15.0, next runs odoo version 15
             or -s 15    <- opens interactive shell with db 15 (db called "15" gotta exist)
-            
             '''
     parser = argparse.ArgumentParser(description='or i.e "Odoo run" [version]')
     parser.add_argument("version", nargs="?", default=None, help="Which version do you want to run? ")  
@@ -83,7 +82,6 @@ def run_odoo(version:Version, shell:bool=False, extra_args:list=[]):
     conda_python=f'/home/odoo/miniconda3/envs/{version.formal}/bin/python3'
     dir_odoo=WT_DIR/version.formal/'odoo'
     odoo_bin=str(dir_odoo/'odoo-bin')
-    shell = 'shell' if shell else ''
     addons=         f"--addons-path={dir_odoo}/addons/,{dir_odoo.parent/'enterprise'}"
     db_host =        "--db_host=127.0.0.1"
     db_port =        "--db_port=5433" # TODO infer that
@@ -91,7 +89,9 @@ def run_odoo(version:Version, shell:bool=False, extra_args:list=[]):
     db_user =        "--db_user=odoo"
     db_password =    "--db_password=odoo"
     http_interface= f"--http-interface={version.ip}"
-    cmd=[conda_python, odoo_bin, shell, addons, db_host, db_port, db_name, db_user, db_password, http_interface] + extra_args
+    cmd=[conda_python, odoo_bin, 'shell', addons, db_host, db_port, db_name, db_user, db_password, http_interface] + extra_args
+    if not shell:
+        cmd.pop(2)
     print("Running command:\n", ' \\\n'.join(cmd), '\n')
     _append_histfile(cmd)
     res= subprocess.run(cmd)
