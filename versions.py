@@ -31,5 +31,6 @@ VERSIONS= [
     Version(formal="saas-17.1", short="17.1",  ip="127.0.0.171", tags={"171"}),
     Version(formal="saas-17.2", short="17.2",  ip="127.0.0.172", tags={"172"}),
     Version(formal="saas-17.3", short="17.3",  ip="127.0.0.173", tags={"173"}),
-    Version(formal="master",    short="master",ip="127.0.0.254", ),        
+    Version(formal="saas-17.4", short="17.4",  ip="127.0.0.174", tags={"174"}),
+    Version(formal="master",    short="master",ip="127.0.0.254", ),
 ]

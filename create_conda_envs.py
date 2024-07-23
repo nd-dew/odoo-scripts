@@ -11,6 +11,7 @@ env_names = [
     "saas-17.1",
     "saas-17.2",
     "saas-17.3",
+    "saas-17.4",
     "master",
 ]
 
