@@ -37,6 +37,7 @@ _base_odoo_change(){
         ["saas-17.3"]="${prefix}/saas-17.3" ["17.3"]="${prefix}/saas-17.3" ["173"]="${prefix}/saas-17.3"
         ["saas-17.4"]="${prefix}/saas-17.4" ["17.4"]="${prefix}/saas-17.4" ["174"]="${prefix}/saas-17.4"
         ["18.0"]="${prefix}/18.0" ["18"]="${prefix}/18.0"
+        ["saas-18.1"]="${prefix}/saas-18.1" ["18.1"]="${prefix}/saas-18.1" ["181"]="${prefix}/saas-18.1"
         ["master"]="${prefix}/master" ["ms"]="${prefix}/master"
     )
 
