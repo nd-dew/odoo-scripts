@@ -1,4 +1,4 @@
-from sync import create_worktree, PATH_TO_DIR_WITH_WORKTREES, create_hosts
+from sync import create_worktree, PATH_TO_DIR_WITH_WORKTREES, create_hosts, add_odoo_change_shortcut
 
 class Version():
     all_tags = set()
@@ -35,6 +35,7 @@ def sync_versions(versions):
     for version in versions:
         create_worktree(version.formal)
         create_hosts(version.ip, version.short)
+        add_odoo_change_shortcut(version_short=version.short)
 
 if __name__ == "__main__":
     sync_versions(VERSIONS)

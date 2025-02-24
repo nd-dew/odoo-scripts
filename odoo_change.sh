@@ -23,8 +23,6 @@ _base_odoo_change(){
     # usage: "oc yr_shortcut_1"  -> changes dir to path_to_worktree
     prefix="/home/odoo/Repos/Odoo/wt"
     declare -A all_versions=(
-        ["14.0"]="${prefix}/14.0" ["14"]="${prefix}/14.0"
-        ["15.0"]="${prefix}/15.0" ["15"]="${prefix}/15.0"
         ["saas-15.2"]="${prefix}/saas-15.2" ["15.2"]="${prefix}/saas-15.2" ["152"]="${prefix}/saas-15.2"
         ["16.0"]="${prefix}/16.0" ["16"]="${prefix}/16.0"
         ["saas-16.1"]="${prefix}/saas-16.1" ["16.1"]="${prefix}/saas-16.1" ["161"]="${prefix}/saas-16.1"
@@ -39,7 +37,8 @@ _base_odoo_change(){
         ["18.0"]="${prefix}/18.0" ["18"]="${prefix}/18.0"
         ["saas-18.1"]="${prefix}/saas-18.1" ["18.1"]="${prefix}/saas-18.1" ["181"]="${prefix}/saas-18.1"
         ["master"]="${prefix}/master" ["ms"]="${prefix}/master"
-    )
+        ["182"]="/home/odoo/Repos/Odoo/wt/saas-182"
+)
 
 
     if [ -n "${all_versions[$1]}" ]; then
