@@ -36,7 +36,7 @@ def sync_versions(versions):
         print(f"\n\nSynchronizing {version}")
         create_worktrees(version.formal)
         create_hosts(version.ip, version.short)
-        add_odoo_change_shortcut(version_short=version.short)
+        add_odoo_change_shortcut(version_short_num=version.short)
 
 if __name__ == "__main__":
     sync_versions(VERSIONS)

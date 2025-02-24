@@ -37,7 +37,7 @@ _base_odoo_change(){
         ["18.0"]="${prefix}/18.0" ["18"]="${prefix}/18.0"
         ["saas-18.1"]="${prefix}/saas-18.1" ["18.1"]="${prefix}/saas-18.1" ["181"]="${prefix}/saas-18.1"
         ["master"]="${prefix}/master" ["ms"]="${prefix}/master"
-        ["182"]="/home/odoo/Repos/Odoo/wt/saas-182"
+        ["182"]="/home/odoo/Repos/Odoo/wt/saas-18.2"
 )
 
 
